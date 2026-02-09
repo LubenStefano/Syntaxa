@@ -1,0 +1,94 @@
+.adminPage {
+  max-width: 920px;
+  margin: 48px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #2f3b4e;
+}
+
+/* Header */
+.adminHead h1 {
+  margin: 0 0 6px 0;
+  font-size: 28px;
+}
+
+.muted {
+  color: rgba(47, 59, 78, 0.6);
+  margin: 0;
+}
+
+/* Form */
+.editorForm {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  box-shadow: 0 12px 30px rgba(47, 59, 78, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.editorForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.editorForm input,
+.editorForm textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(47, 59, 78, 0.2);
+  font-size: 15px;
+  outline: none;
+}
+
+.editorForm textarea {
+  min-height: 120px; /* override from create-lecture.css */
+  resize: vertical;
+}
+
+.editorForm input:focus,
+.editorForm textarea:focus {
+  border-color: #6e85b7;
+  box-shadow: 0 0 0 3px rgba(110, 133, 183, 0.15);
+}
+
+/* Actions */
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: #f2f4f8;
+  color: #2f3b4e;
+}
+
+.button:hover {
+  background: #e8ebf2;
+}
+
+.primary {
+  background: #6e85b7;
+  color: #ffffff;
+}
+
+.primary:hover {
+  background: #5b6aa0;
+}

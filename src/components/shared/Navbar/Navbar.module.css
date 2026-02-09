@@ -1,0 +1,54 @@
+.nav {
+    position: relative;
+    top: 0%;
+    left: 0%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.logo  a{
+    font-size: 20px;
+    text-decoration: none;
+    color: #000;
+}
+
+.menu {
+    font-family: "Sansation", sans-serif;
+    font-weight: 300;
+    font-optical-sizing: auto;
+    font-style: normal;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-size: 25px;
+    gap: 4vw;
+    padding: 0;
+    margin: 0;
+}
+
+.menuItem a{
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.login {
+    padding: 10px 50px;
+    font-size: 20px;
+    border: none;
+    background-color: #6E85B7;
+    color: #fff;
+    font-family: "MuseoModerno", sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+}

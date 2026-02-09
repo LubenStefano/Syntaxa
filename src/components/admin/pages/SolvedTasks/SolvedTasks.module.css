@@ -1,0 +1,121 @@
+.adminPage {
+  max-width: 920px;
+  margin: 48px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #2f3b4e;
+}
+
+/* Header */
+.adminHead h1 {
+  margin: 0 0 6px 0;
+  font-size: 28px;
+}
+
+.tasksHint {
+  color: rgba(47, 59, 78, 0.7);
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+.completedList {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.empty {
+  color: rgba(47, 59, 78, 0.6);
+}
+
+.taskCard {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  box-shadow: 0 6px 18px rgba(47, 59, 78, 0.04);
+}
+
+.thumb {
+  width: 120px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta {
+  flex: 1;
+}
+
+.meta h4 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  color: #2f3b4e;
+}
+
+.meta p {
+  margin: 0;
+  color: rgba(47, 59, 78, 0.7);
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #f2f4f8;
+  color: #2f3b4e;
+}
+
+.button:hover {
+  background: #e8ebf2;
+}
+
+.gradeBadge {
+  background: #6e85b7;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .taskCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .thumb {
+    width: 100%;
+    height: 160px;
+  }
+
+  .gradeBadge {
+    align-self: flex-end;
+  }
+}

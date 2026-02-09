@@ -1,0 +1,102 @@
+.adminPage {
+  max-width: 1100px;
+  margin: 36px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #2f3b4e;
+}
+
+.reviewGrid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.leftCol {
+  flex: 1 1 48%;
+  display: flex;
+  flex-direction: column;
+}
+
+.rightCol {
+  flex: 1 1 48%;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.readonlyBox {
+  padding: 8px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+}
+
+.gradeInput {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  width: 120px;
+  outline: none;
+}
+
+.gradeInput:focus {
+  border-color: #6e85b7;
+  box-shadow: 0 0 0 3px rgba(110, 133, 183, 0.15);
+}
+
+.saveWrap {
+  margin-top: 8px;
+}
+
+.preview {
+  width: 100%;
+  min-height: 360px;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.bottomBar {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #f2f4f8;
+  color: #2f3b4e;
+  font-weight: 600;
+}
+
+.button:hover {
+  background: #e8ebf2;
+}
+
+.primary {
+  background: #6e85b7;
+  color: #fff;
+}
+
+.primary:hover {
+  background: #5b6aa0;
+}
+
+@media (max-width: 900px) {
+  .leftCol,
+  .rightCol {
+    flex: 1 1 100%;
+  }
+}

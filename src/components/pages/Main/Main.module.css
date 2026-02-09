@@ -1,0 +1,117 @@
+.main {
+  width: 100%;
+}
+
+/* Shared text style */
+.text {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* HERO */
+.heroSection {
+  height: 100%;
+  margin: 0 30px;
+  background: linear-gradient(0deg, rgb(255 255 255) 25%, rgb(197, 226, 255) 100%);
+  position: relative;
+}
+
+.header {
+  font-family: "Sansation", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20vw;
+  text-align: center;
+  position: relative;
+  color: #fff;
+  z-index: 3;
+}
+
+.mainAsset {
+  position: absolute;
+  width: 55%;
+  left: 27%;
+  top: 20%;
+  z-index: 3;
+}
+
+.boxes {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-height: 80vh;
+  width: 100%;
+  top: 100px;
+  gap: 10%;
+  z-index: 4;
+  margin-bottom: 15vh;
+}
+
+.box {
+  width: 25%;
+}
+
+.leftBox {
+  width: 300px;
+  max-height: 450px;
+  background-color: #fff;
+  padding: 2%;
+  border-top-right-radius: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.earth {
+  position: relative;
+  max-height: 250px;
+  object-fit: contain;
+  top: -100px;
+  left: -5%;
+}
+
+.leftBoxInfo {
+  height: 60%;
+  position: relative;
+  display: flex;
+  top: -70px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rightBox {
+  width: 300px;
+  max-height: 500px;
+  background-color: #fff;
+  padding: 2%;
+  border-top-left-radius: 50px;
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logos {
+  max-height: 40%;
+  object-fit: contain;
+  position: relative;
+  top: 0px;
+}
+
+.rightBoxInfo {
+  height: 60%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+  gap: 20px;
+}
+
+/* INFO SECTION */
+.infoSection {
+  width: 100%;
+  height: 20vw;
+}

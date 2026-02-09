@@ -1,0 +1,190 @@
+.page {
+  width: 100%;
+  background: #fff;
+}
+
+/* ========== Optional Task Info ========== */
+.taskInfo {
+  max-width: 1200px;
+  margin: 32px auto 0;
+  padding: 20px 22px;
+
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  box-shadow: 0 12px 30px rgba(47, 59, 78, 0.06);
+}
+
+.taskInfo h1 {
+  font-size: 26px;
+  margin: 0 0 8px 0;
+  color: #2f3b4e;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tagPill {
+  background: linear-gradient(180deg, #fff, #fbfdff);
+  border: 1px solid rgba(110, 133, 183, 0.08);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #2f3b4e;
+  font-size: 13px;
+}
+
+.difficulty {
+  color: rgba(47, 59, 78, 0.6);
+  font-size: 14px;
+}
+
+.metaActions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.taskInfo h3 {
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: #2f3b4e;
+}
+
+.taskInfo p {
+  color: rgba(47, 59, 78, 0.82);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== Sandbox Grid ========== */
+.sandboxContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 18px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 32px auto;
+}
+
+.htmlEditor {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+.cssEditor {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+.jsEditor {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+.resultEditor {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+.editor {
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 240px;
+
+  /* you used CSS vars before; keeping the same look with real values */
+  box-shadow: 0 12px 30px rgba(47, 59, 78, 0.06);
+  border: 1px solid rgba(47, 59, 78, 0.06);
+  background: #ffffff;
+}
+
+.editor label {
+  font-weight: 600;
+  color: #2f3b4e;
+}
+
+.editor textarea {
+  width: 95%;
+  height: 100%;
+  min-height: 160px;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid rgba(47, 59, 78, 0.585);
+  background-color: #eaeaea68;
+  padding: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+    "Courier New", monospace;
+  font-size: 15px;
+}
+
+.resultEditor iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  border: 2px dotted rgba(47, 59, 78, 0.585);
+}
+
+/* ========== Controls ========== */
+.sandboxControls {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  padding: 14px 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: #f2f4f8;
+  color: #2f3b4e;
+}
+
+.button:hover {
+  background: #e8ebf2;
+}
+
+/* mimic your hover intents without IDs */
+.sandboxControls > :first-child:hover {
+  background-color: rgba(92, 236, 73, 0.641);
+}
+
+.sandboxControls > :nth-child(2):hover {
+  background-color: rgba(236, 73, 73, 0.641);
+}
+
+@media (max-width: 900px) {
+  .taskMeta {
+    align-items: flex-start;
+  }
+
+  .metaActions {
+    order: 3;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .sandboxContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .htmlEditor,
+  .cssEditor,
+  .jsEditor,
+  .resultEditor {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

@@ -1,0 +1,27 @@
+.footer {
+  height: 10vh;
+  background-color: #6e85b7;
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  width: 100%;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: "Sansation", sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.copy {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
