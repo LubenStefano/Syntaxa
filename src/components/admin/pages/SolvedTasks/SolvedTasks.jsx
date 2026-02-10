@@ -62,6 +62,7 @@ export default function SolvedTasks() {
 
               <div className={styles.meta}>
                 <h4>{s.taskTitle}</h4>
+                <p>Submitted by: {s.student}</p>
                 <p>{s.submittedAt}</p>
               </div>
 

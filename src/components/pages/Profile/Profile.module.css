@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100vh;
 
   background: linear-gradient(180deg, #ffffff, #fbfdff);
   color: #2f3b4e;
@@ -12,17 +13,27 @@
 
 /* Profile card */
 .profileCard {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
-  border: 1px solid rgba(47, 59, 78, 0.06);
-  box-shadow: 0 10px 24px rgba(47, 59, 78, 0.06);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid rgba(47, 59, 78, 0.06);
+    box-shadow: 0 10px 24px rgba(47, 59, 78, 0.06);
+    justify-content: space-evenly;
 }
 
-.avatarWrap {}
+.btn {
+    padding: 10px 50px;
+    font-size: 20px;
+    border: none;
+    background-color: #6E85B7;
+    color: #fff;
+    font-family: "MuseoModerno", sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+}
 
 .avatar {
   width: 96px;

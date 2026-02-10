@@ -10,7 +10,7 @@ import Lectures from "./components/pages/Lectures/Lectures";
 import Lecture from "./components/pages/Lecture/Lecture";
 import Tasks from "./components/pages/Tasks/Tasks";
 import Sandbox from "./components/pages/Sandbox/Sandbox";
-import Profile from "./components/pages/Profile/profile";
+import Profile from "./components/pages/Profile/Profile";
 import AdminPanel from "./components/admin/AdminPanel/AdminPanel";
 import CreateTask from "./components/admin/pages/CreateTask/CreateTask";
 import CreateLecture from "./components/admin/pages/CreateLecture/CreateLecture";
@@ -27,7 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/lectures" element={<Lectures />} />
-        <Route path="/lecture" element={<Lecture />} />
+        <Route path="/lecture/:id" element={<Lecture />} />
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox/:taskId" element={<Sandbox />} />

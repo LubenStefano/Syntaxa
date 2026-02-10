@@ -75,48 +75,6 @@ export const useLogout = () => {
     return { logout };
 };
 
-export const useDeleteUser = () => {
-    const [error, setError] = useState(null);
-    const { user, setUser } = useUser(); 
-    const navigate = useNavigate();
-    const { handleError } = useErrorHandler();
-
-    const deleteUser = async () => {
-        try {
-            setError(null);
-            await request.deleteUser(user.id); 
-            setUser(null); 
-            await request.logoutUser(); 
-            showMessage("success", "User deleted successfully!", "Your account has been deleted."); 
-            navigate("/");
-        } catch (err) {
-            handleError(err, 'Delete user failed.');
-            setError(err.message);
-        }
-    };
-
-    return { deleteUser, error };
-};
-
-export const useUpdateUser = () => {
-    const { user, setUser } = useUser();
-    const { handleError } = useErrorHandler();
-
-    const updateUser = async (updatedData) => {
-        try {
-            const updatedUser = await request.updateUser(user.id, updatedData);
-            setUser({ ...user, ...updatedUser }); 
-            showMessage("success", "User updated successfully!", "Your profile has been updated."); 
-        } catch (err) {
-            handleError(err, 'Update user failed.');
-            console.error("Update user error:", err);
-        }
-    };
-
-    return { updateUser };
-};
-
-
 export const useUserById = (userId) => {
     const [userById, setUserById] = useState(null);
     const [error, setError] = useState(null);

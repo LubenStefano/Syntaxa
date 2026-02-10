@@ -34,12 +34,14 @@
   gap: 14px;
 }
 
-.editorForm label {
+.editorForm label,
+legend {
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-weight: 600;
   font-size: 14px;
+  padding: 0px 10px;
 }
 
 .editorForm input,
@@ -60,6 +62,43 @@
 .editorForm textarea:focus {
   border-color: #6e85b7;
   box-shadow: 0 0 0 3px rgba(110, 133, 183, 0.15);
+}
+
+/* Dynamic Fields */
+.dynamicField {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dynamicField input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(47, 59, 78, 0.2);
+  font-size: 14px;
+}
+
+.dynamicField input:focus {
+  border-color: #6e85b7;
+  box-shadow: 0 0 0 2px rgba(110, 133, 183, 0.15);
+}
+
+/* Delete Button */
+.deleteButton {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  transition: color 0.2s;
+}
+
+.deleteButton:hover {
+  color: #ff4c4c;
 }
 
 /* Actions */
@@ -91,4 +130,54 @@
 
 .primary:hover {
   background: #5b6aa0;
+}
+
+/* Add Button */
+.addButton {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #6e85b7;
+  background: #ffffff;
+  color: #6e85b7;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.addButton:hover {
+  background: #6e85b7;
+  color: #ffffff;
+}
+
+/* Checkbox Group */
+.checkboxGroup {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 10px 0;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+.checkboxGroup label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #6e85b7;
+  cursor: pointer;
+}
+
+
+fieldset {
+  border-radius: 10px;
+  padding: 30px 10px;
 }

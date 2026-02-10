@@ -1,7 +1,7 @@
 import { addDoc, collection, getDocs, query, orderBy, limit, getDoc, doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { createErrorHandler } from '../hooks/createErrorHandler';
+import { useErrorHandler as createErrorHandler } from '../hooks/useErrorHandler';
 
 export const request = {
   async getAll(collectionName, signal) {
@@ -42,9 +42,9 @@ export const request = {
       const docRef = doc(db, collectionName, id);
       const docSnap = await getDoc(docRef, { signal });
       if (docSnap.exists()) {
-          return { id: docSnap.id, ...docSnap.data() };
+        return { id: docSnap.id, ...docSnap.data() };
       } else {
-          throw new Error(`No document found in ${collectionName} with ID ${id}`);
+        return null; // Return null if no document is found
       }
     } catch (error) {
       if (error.name !== 'AbortError') {
@@ -63,7 +63,7 @@ export const request = {
         id: user.uid,
         createdAt: new Date().toISOString(),
         email,
-        savedOffers: [],
+        savedTasks: [],
         ...additionalData
       });
       return user;
@@ -101,5 +101,45 @@ export const request = {
       handleError(error, 'Failed to log out user.');
     }
   },
+
+  async createLecture(data) {
+    const { handleError } = createErrorHandler();
+    try {
+      const lectureData = {
+        ...data,
+        createdAt: new Date().toISOString(),
+      };
+      return await addDoc(collection(db, "lectures"), lectureData);
+    } catch (error) {
+      handleError(error, 'Failed to create a new lecture.');
+    }
+  },
+
+  async getAllLectures() {
+    const { handleError } = createErrorHandler();
+    try {
+      const snapshot = await getDocs(collection(db, "lectures"));
+      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      handleError(error, "Failed to fetch lectures.");
+    }
+  },
+
+  async getSingleLecture(id, signal) {
+    return await this.getById("lectures", id, signal);
+  },
+
+  async createTask(data) {
+    const { handleError } = createErrorHandler();
+    try {
+      const taskData = {
+        ...data,
+        createdAt: new Date().toISOString(),
+      };
+      return await addDoc(collection(db, "tasks"), taskData);
+    } catch (error) {
+      handleError(error, 'Failed to create a new task.');
+    }
+  }
 };
 

@@ -1,29 +1,29 @@
 import { useParams } from "react-router";
+import { useTasks } from "../../../hooks/useTasks";
+import { useEffect, useState } from "react";
 import styles from "./Sandbox.module.css";
 
 export default function Sandbox() {
-  let taskData = [
-    {
-      id: "build-responsive-card",
-      title: "Build a Responsive Card — Task",
-      difficulty: "Medium",
-      tags: ["Frontend", "CSS"],
-      recommendedLectureLabel: "Recommended Lecture",
-      whatWeWant:
-        "Create a responsive card component that includes an image, title and description. The card should adapt to different screen widths, have a hover elevation effect, and use accessible HTML (semantic elements, alt text). You may reuse the sample image provided in the resources.",
-    },
-  ];
-
   const { taskId } = useParams();
+  const { getTaskById } = useTasks();
+  const [task, setTask] = useState(null);
 
-  console.log("Task ID from URL:", taskId);
-  if (!taskId) {
-    console.log("Task ID is undefined or not provided:", taskId);
-    taskData = [];
-  }
+  useEffect(() => {
+    const fetchTask = async () => {
+      if (taskId) {
+        try {
+          const fetchedTask = await getTaskById(taskId);
+          setTask(fetchedTask);
+        } catch (error) {
+          console.error("Failed to fetch task:", error);
+        }
+      }
+    };
 
-  const hasTask = taskData.length > 0;
-  const task = hasTask ? taskData[0] : null;
+    fetchTask();
+  }, [taskId, getTaskById]);
+
+  const hasTask = !!task;
 
   return (
     <main className={styles.page}>

@@ -4,13 +4,13 @@ import {getAuth} from "firebase/auth"
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAQQsADaeYe0MYAmZXK3tJHQzKFbjB5IWs",
-  authDomain: "renew-755e8.firebaseapp.com",
-  projectId: "renew-755e8",
-  storageBucket: "renew-755e8.firebasestorage.app",
-  messagingSenderId: "851425224161",
-  appId: "1:851425224161:web:9d1481cc0e6750b9345ea0",
-  measurementId: "G-M9QSQQ3YM1"
+  apiKey: "AIzaSyCC_yNisi-DWUWorVF_hS3mPU5OkVlRmm8",
+  authDomain: "syntaxa-ed936.firebaseapp.com",
+  projectId: "syntaxa-ed936",
+  storageBucket: "syntaxa-ed936.firebasestorage.app",
+  messagingSenderId: "579378637353",
+  appId: "1:579378637353:web:e9cf71bcff1378b2e34a38",
+  measurementId: "G-FFRW01MN2T"
 };
 
 const app = initializeApp(firebaseConfig);

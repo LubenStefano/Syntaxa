@@ -27,21 +27,17 @@ const srcDoc =
 export default function ReviewTask() {
   return (
     <main className={styles.adminPage}>
-      <h1>Review submission</h1>
+      <h1>Review Submission</h1>
 
       <div className={styles.reviewGrid}>
         <div className={styles.leftCol}>
           <label className={styles.label}>Student</label>
           <div className={styles.readonlyBox}>{submission.student}</div>
 
-          <label className={styles.label} style={{ marginTop: 8 }}>
-            Submitted at
-          </label>
+          <label className={styles.label}>Submitted At</label>
           <div className={styles.readonlyBox}>{submission.submittedAt}</div>
 
-          <label className={styles.label} style={{ marginTop: 8 }}>
-            Grade (out of 100)
-          </label>
+          <label className={styles.label}>Grade (out of 100)</label>
           <input
             className={styles.gradeInput}
             type="number"
@@ -53,17 +49,39 @@ export default function ReviewTask() {
 
           <div className={styles.saveWrap}>
             <button className={`${styles.button} ${styles.primary}`} type="button">
-              Save grade
+              Save Grade
             </button>
           </div>
         </div>
 
         <div className={styles.rightCol}>
-          <label className={styles.label}>Solution preview</label>
+          <label className={styles.label}>Solution Preview</label>
+
+          <label className={styles.label}>Solution HTML</label>
+          <textarea
+            className={styles.textarea}
+            rows={6}
+            placeholder="<!-- Solution HTML -->"
+          />
+
+          <label className={styles.label}>Solution CSS</label>
+          <textarea
+            className={styles.textarea}
+            rows={6}
+            placeholder="/* Solution CSS */"
+          />
+
+          <label className={styles.label}>Solution JS</label>
+          <textarea
+            className={styles.textarea}
+            rows={4}
+            placeholder="// Solution JS"
+          />
+
           <iframe
             className={styles.preview}
             sandbox="allow-scripts allow-same-origin"
-            title="solution preview"
+            title="Solution Preview"
             srcDoc={srcDoc}
           />
         </div>

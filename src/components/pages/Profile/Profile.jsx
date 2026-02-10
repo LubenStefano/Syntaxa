@@ -1,81 +1,91 @@
 import styles from "./Profile.module.css";
+import { useLogout } from "../../../hooks/useAuth";
+import { useUser } from "../../../context/UserContext";
+
 
 import avatarImg from "../../../../assets/bird.png";
-import flowersImg from "../../../../assets/flowers.jpg";
-
-const profile = {
-  name: "Your Name",
-  email: "you@example.com",
-  bio: "Short bio goes here. Tell people what you like to build.",
-  avatar: avatarImg,
-};
-
-const submissions = [
-  {
-    id: "responsive_card",
-    title: "responsive card",
-    savedAt: "2026-02-09 14:30",
-    thumb: flowersImg,
-    grade: "86%",
-  },
-  {
-    id: "hover_states",
-    title: "hover states",
-    savedAt: "2026-02-08 20:10",
-    thumb: flowersImg,
-    grade: "74%",
-  },
-];
 
 export default function Profile() {
-  const hasSubmissions = submissions.length > 0;
+  const { logout } = useLogout();
+  const { user } = useUser();
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  if (!user) {
+    return <p>Loading user data...</p>;
+  }
+
+  const hasSubmissions = user.savedTasks && user.savedTasks.length > 0;
 
   return (
     <main className={styles.profilePage}>
       <section className={styles.profileCard}>
         <div className={styles.avatarWrap}>
-          <img className={styles.avatar} src={profile.avatar} alt="avatar" />
+          <img
+            className={styles.avatar}
+            src={avatarImg}
+            alt="avatar"
+          />
         </div>
 
         <div className={styles.profileInfo}>
-          <h2 className={styles.displayName}>{profile.name}</h2>
-          <p className={styles.displayEmail}>{profile.email}</p>
-          <p className={styles.displayBio}>{profile.bio}</p>
+          <h2 className={styles.displayName}>{`${user.firstName} ${user.lastName}`}</h2>
+          <p className={styles.displayEmail}>{user.email}</p>
+          <p className={styles.displayBio}>
+            Member since{" "}
+            {new Date(user.createdAt).toLocaleDateString()}
+          </p>
 
-          <div className={styles.profileActions}>
-            {/* kept empty intentionally (you removed buttons) */}
-          </div>
+        </div>
+        <div className={styles.profileActions}>
+          <button
+            className={styles.btn}
+            onClick={handleLogout}
+            type="button"
+          >
+            Logout
+          </button>
         </div>
       </section>
 
       <section className={styles.profileTasks}>
         <h3>Completed tasks</h3>
-        <p className={styles.tasksHint}>Submissions you saved from task pages.</p>
+        <p className={styles.tasksHint}>
+          Submissions you saved from task pages.
+        </p>
 
         <ul className={styles.completedList}>
           {!hasSubmissions && (
             <li className={styles.empty}>No saved submissions yet.</li>
           )}
 
-          {submissions.map((s) => (
-            <li key={s.id} className={styles.taskCard}>
-              <div className={styles.thumb}>
-                <img src={s.thumb} alt="submission thumbnail" />
-              </div>
+          {hasSubmissions &&
+            user.savedTasks.map((task) => (
+              <li key={task.id} className={styles.taskCard}>
+                <div className={styles.thumb}>
+                  <img
+                    src={task.thumb || avatarImg}
+                    alt="submission thumbnail"
+                  />
+                </div>
 
-              <div className={styles.meta}>
-                <h4>{s.title}</h4>
-                <p>{s.savedAt}</p>
-              </div>
+                <div className={styles.meta}>
+                  <h4>{task.title}</h4>
+                  <p>{new Date(task.savedAt).toLocaleString()}</p>
+                </div>
 
-              <div className={styles.actions}>
-                <button className={styles.button} type="button">
-                  Open
-                </button>
-                <div className={styles.gradeBadge}>{s.grade}</div>
-              </div>
-            </li>
-          ))}
+                <div className={styles.actions}>
+                  <button className={styles.button} type="button">
+                    Open
+                  </button>
+                  {task.grade && (
+                    <div className={styles.gradeBadge}>{task.grade}</div>
+                  )}
+                </div>
+              </li>
+            ))}
         </ul>
       </section>
     </main>

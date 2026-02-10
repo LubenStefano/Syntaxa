@@ -1,97 +1,121 @@
+/* Enhanced Styles */
 .adminPage {
-  max-width: 1100px;
-  margin: 36px auto;
-  padding: 20px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color: #2f3b4e;
+  gap: 16px;
+  background: #f9fafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .reviewGrid {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+      display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
-.leftCol {
-  flex: 1 1 48%;
-  display: flex;
-  flex-direction: column;
-}
-
+.leftCol,
 .rightCol {
   flex: 1 1 48%;
-  display: flex;
-  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .label {
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  color: #4a5568;
 }
 
 .readonlyBox {
-  padding: 8px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid rgba(47, 59, 78, 0.06);
+      padding: 10px;
+    background: #edf2f7;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 14px;
+    margin-bottom: 30px;
+    color: #2d3748;
 }
 
 .gradeInput {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(47, 59, 78, 0.06);
-  width: 120px;
-  outline: none;
+      padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e0;
+    width: 140px;
+    font-size: 14px;
+    outline: none;
+    margin: 0px 20px;
 }
 
 .gradeInput:focus {
-  border-color: #6e85b7;
-  box-shadow: 0 0 0 3px rgba(110, 133, 183, 0.15);
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
 }
 
 .saveWrap {
-  margin-top: 8px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
 }
 
 .preview {
   width: 100%;
-  min-height: 360px;
-  border: 1px solid rgba(47, 59, 78, 0.06);
+  min-height: 400px;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  background: #fff;
+  background: #ffffff;
+  margin-top: 16px;
 }
 
 .bottomBar {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   justify-content: flex-end;
+  padding-top: 16px;
 }
 
 .button {
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: #f2f4f8;
-  color: #2f3b4e;
+  background: #e2e8f0;
+  color: #2d3748;
   font-weight: 600;
+  transition: background 0.2s, color 0.2s;
 }
 
 .button:hover {
-  background: #e8ebf2;
+  background: #cbd5e0;
 }
 
 .primary {
-  background: #6e85b7;
-  color: #fff;
+  background: #3182ce;
+  color: #ffffff;
 }
 
 .primary:hover {
-  background: #5b6aa0;
+  background: #2b6cb0;
 }
 
 @media (max-width: 900px) {
