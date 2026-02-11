@@ -19,9 +19,10 @@ export const request = {
   async create(collectionName, data) {
     const { handleError } = createErrorHandler();
     try {
-      return await addDoc(collection(db, collectionName), data);
+      const docRef = await addDoc(collection(db, collectionName), data);
+      return { id: docRef.id, ...data };
     } catch (error) {
-      handleError(error, 'Failed to create a new document.');
+      handleError(error, 'Failed to create document.');
     }
   },
 

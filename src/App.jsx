@@ -31,6 +31,7 @@ function App() {
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox/:taskId" element={<Sandbox />} />
+        <Route path="/sandbox/saved/:taskId" element={<Sandbox />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin/*" element={<AdminPanel />}>
           <Route path="create-task" element={<CreateTask />} />

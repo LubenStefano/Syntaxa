@@ -96,10 +96,10 @@ export default function CreateTask() {
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
-              <option>HTML</option>
-              <option>CSS</option>
-              <option>JS</option>
-              <option>ALL</option>
+              <option>html</option>
+              <option>css</option>
+              <option>js</option>
+              <option>all</option>
             </select>
           </label>
 

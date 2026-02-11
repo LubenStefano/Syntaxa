@@ -34,22 +34,38 @@ export default function Tasks() {
                         <p className={styles.description}>{task.description}</p>
 
                         <div className={styles.logos}>
-                            {Array.isArray(task.type) ? (
-                                task.type.map((tech) => (
-                                    <img
-                                        key={tech}
-                                        className={styles.logo}
-                                        src={getLogoUrl(tech)}
-                                        alt={tech}
-                                    />
-                                ))
-                            ) : (
-                                <img
-                                    className={styles.logo}
-                                    src={getLogoUrl(task.type)}
-                                    alt={task.type}
-                                />
-                            )}
+                            {(() => {
+                                let logoUrl = getLogoUrl(task.type);
+                                if (task.type === 'all') {
+                                    return (
+                                        <>
+                                            <img
+                                                className={styles.logo}
+                                                src={getLogoUrl('js')}
+                                            />
+                                            <img
+                                                className={styles.logo}
+                                                src={getLogoUrl('css')}
+                                            />
+                                            <img
+                                                className={styles.logo}
+                                                src={getLogoUrl('html')}
+                                            />
+                                        </>
+                                    );
+                                } else {
+                                    return (
+                                        logoUrl && (
+                                            <img
+                                                className={styles.logo}
+                                                src={logoUrl}
+                                                alt={task.type}
+                                            />
+                                        )
+                                    );
+                                }
+
+                            })()}
                         </div>
                     </div>
                 </div>

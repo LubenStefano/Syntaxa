@@ -1,7 +1,15 @@
+main {
+    height: 100vh;
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
 .page {
   width: 100%;
   background: #fff;
-  height: 95vh;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,13 +77,15 @@
 
 /* ========== Sandbox Grid ========== */
 .sandboxContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 18px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 32px auto;
+    display: flex;
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 18px;
+    width: 100%;
+    height: 70vh;
+    max-width: 95vw;
+    margin: 32px auto;
 }
 
 .htmlEditor {
@@ -169,27 +179,113 @@
   background-color: rgba(236, 73, 73, 0.641);
 }
 
-@media (max-width: 900px) {
-  .taskMeta {
-    align-items: flex-start;
-  }
+.sandboxGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  height: 90vh;
+}
 
-  .metaActions {
-    order: 3;
-    width: 100%;
-    justify-content: flex-end;
-  }
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 50%;
+}
 
-  .sandboxContainer {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
+.editorTabs {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
 
-  .htmlEditor,
-  .cssEditor,
-  .jsEditor,
-  .resultEditor {
-    grid-column: auto;
-    grid-row: auto;
-  }
+.flexSpacer {
+  flex: 1;
+}
+
+.controlButton {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.editorArea {
+  flex: 1;
+}
+
+.previewConsoleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 50%;
+}
+
+.previewArea {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.previewHeader {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.previewIframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.consoleArea {
+  height: 35%;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.consoleHeader {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.consoleOutput {
+  padding: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  overflow: auto;
+  height: 100%;
+}
+
+.noOutput {
+  opacity: 0.7;
+}
+
+.consoleLine {
+  margin-bottom: 6px;
+}
+
+.activeTab {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+
+.inactiveTab {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
 }
