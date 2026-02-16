@@ -1,14 +1,10 @@
-import { notification } from 'antd';
-
-export function useErrorHandler() {
-  const handleError = (error, customMessage) => {
+export function useErrorHandler(addNotification) {
+  const handleError = (error, customMessage) => {    
     if (!error) {
       if (!customMessage) return;
       showError('Error', customMessage || 'An unknown error occurred.');
       return;
     }
-
-    console.error('[Error Object]:', error);
 
     const errorMessage =
       error?.response?.data?.message || 
@@ -42,51 +38,45 @@ export function useErrorHandler() {
         default:
           showError('HTTP Error', errorMessage);
       }
+      return;
     }
 
-// Firebase specific error handling
-else if (error?.code) {
-  switch (error.code) {
-    case 'auth/invalid-credential':
-      showError('Invalid Credentials', 'The provided email or password is invalid. Please try again.');
-      break;
-    case 'auth/user-not-found':
-      showError('User Not Found', 'No account found with this email. Please register or try again.');
-      break;
-    case 'auth/wrong-password':
-      showError('Wrong Password', 'The password you entered is incorrect. Please try again.');
-      break;
-    case 'auth/email-already-in-use':
-      showError('Email Already In Use', 'This email is already registered. Please log in or use a different email.');
-      break;
-    case 'auth/weak-password':
-      showError('Weak Password', 'Your password is too weak. Password should be 6 characters.');
-      break;
-    case 'auth/too-many-requests':
-      showError('Too Many Attempts', 'You have made too many attempts. Please try again later.');
-      break;
-    case 'auth/network-request-failed':
-      showError('Network Error', 'A network error occurred. Please check your connection and try again.');
-      break;
-    default:
-      showError('Authentication Error', 'An unexpected error occurred. Please try again.');
-  }
-
+    // Firebase specific error handling
+    if (error?.code) {
+      switch (error.code) {
+        case 'auth/invalid-credential':
+          showError('Invalid Credentials', 'The provided email or password is invalid. Please try again.');
+          break;
+        case 'auth/user-not-found':
+          showError('User Not Found', 'No account found with this email. Please register or try again.');
+          break;
+        case 'auth/wrong-password':
+          showError('Wrong Password', 'The password you entered is incorrect. Please try again.');
+          break;
+        case 'auth/email-already-in-use':
+          showError('Email Already In Use', 'This email is already registered. Please log in or use a different email.');
+          break;
+        case 'auth/weak-password':
+          showError('Weak Password', 'Your password is too weak. Password should be 6 characters.');
+          break;
+        case 'auth/too-many-requests':
+          showError('Too Many Attempts', 'You have made too many attempts. Please try again later.');
+          break;
+        case 'auth/network-request-failed':
+          showError('Network Error', 'A network error occurred. Please check your connection and try again.');
+          break;
+        default:
+          showError('Authentication Error', 'An unexpected error occurred. Please try again.');
+      }
+      return;
     }
 
     // Generic error handling
-    else {
-      showError('Error', errorMessage);
-    }
+    showError('Error', errorMessage);
   };
 
   const showError = (title, description) => {
-    notification.error({
-      message: title,
-      description: description || 'An error occurred.',
-      duration: 5,
-      placement: 'topRight',
-    });
+    addNotification("error", `${title}: ${description}`);
   };
 
   return { handleError };

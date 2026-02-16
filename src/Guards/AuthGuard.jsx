@@ -24,8 +24,12 @@ export default function AuthGuard() {
     }
 
     if (!user) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/login" replace />;
     }
 
-    return <Outlet />;
+    return (
+        <div>
+            <Outlet />
+        </div>
+    );
 }

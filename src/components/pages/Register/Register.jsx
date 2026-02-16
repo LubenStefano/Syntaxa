@@ -3,6 +3,7 @@ import { useRegister } from "../../../hooks/useAuth";
 import styles from "./Register.module.css";
 import { Link, useNavigate } from "react-router";
 import { useErrorHandler } from "../../../hooks/useErrorHandler";
+import { useNotification } from "../../shared/Notification/useNotification";
 import flowers from "../../../../assets/flowers.jpg";
 
 export default function Register() {
@@ -13,10 +14,38 @@ export default function Register() {
     password: "",
     rePassword: "",
   });
-  const [passwordError, setPasswordError] = useState(null);
   const { register } = useRegister();
-  const { handleError } = useErrorHandler();
+  const { addNotification } = useNotification();
+  const { handleError } = useErrorHandler(addNotification);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const nameRegex = /^[A-Za-z]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+    if (!nameRegex.test(formData.firstName) || !nameRegex.test(formData.lastName)) {
+      addNotification("error", "First and Last Name must contain only letters.");
+      return false;
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      addNotification("error", "Invalid email address.");
+      return false;
+    }
+
+    if (!passwordRegex.test(formData.password)) {
+      addNotification("error", "Password must be at least 6 characters long and include at least one uppercase and one lowercase letter.");
+      return false;
+    }
+
+    if (formData.password !== formData.rePassword) {
+      addNotification("error", "Passwords do not match.");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -28,21 +57,18 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.rePassword) {
-      setPasswordError("Passwords do not match.");
-      handleError(null, "Passwords do not match.");
-      return;
-    }
-    setPasswordError(null);
+    if (!validateForm()) return;
+
     try {
       const { ...data } = formData;
       await register(data.email, data.password, {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      navigate("/dashboard");
+      addNotification("success", "Registration successful! Redirecting to home page.");
+      navigate("/");
     } catch (err) {
-      handleError(err, "Registration failed.");
+        handleError(err, "Registration failed. Please try again.");
     }
   };
 
@@ -118,8 +144,6 @@ export default function Register() {
                 required
               />
             </label>
-
-            {passwordError && <p className={styles.error}>{passwordError}</p>}
 
             <div className={styles.buttons}>
               <button className={`${styles.btn} ${styles.btnPrimary}`} type="submit">

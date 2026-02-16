@@ -7,13 +7,15 @@ import { useSaveTask } from "../../../hooks/useSaveTask";
 import { instrumentJs } from "../../../utils/instrumentJs";
 import styles from "./Sandbox.module.css";
 import { useUser } from "../../../context/UserContext";
+import { useNotification } from "../../shared/Notification/useNotification";
 
 export default function Sandbox() {
-  const { user } = useUser()
+  const { user } = useUser();
   const { taskId } = useParams();
   const navigate = useNavigate();
   const { getTaskById } = useTasks();
   const { saveSandboxTask, fetchSavedTasks } = useSaveTask();
+  const { addNotification } = useNotification();
 
   // Keep latest getTaskById without re-triggering the fetch effect
   const getTaskByIdRef = useRef(getTaskById);
@@ -33,22 +35,27 @@ export default function Sandbox() {
   const [execCode, setExecCode] = useState({ html: "", css: "", js: "" });
 
   const iframeRef = useRef(null);
+  const hasFetched = useRef(false); // Track if the fetch has already occurred
+
+  // Update state setters to remove the editing flag
+  function handleHtmlChange(value) {
+    setHtml(value);
+  }
+
+  function handleCssChange(value) {
+    setCss(value);
+  }
+
+  function handleJsChange(value) {
+    setJs(value);
+  }
 
   // Fetch task and set starter values (DEPEND ONLY ON taskId)
   useEffect(() => {
     let cancelled = false;
 
     async function fetchTask() {
-      if (!taskId) {
-        if (!cancelled) {
-          if (task !== null || html !== "" || css !== "" || js !== "") {
-            setTask(null);
-            setHtml("");
-            setCss("");
-            setJs("");
-            setLogs([]);
-          }
-        }
+      if (!taskId || hasFetched.current) {
         return;
       }
 
@@ -86,10 +93,12 @@ export default function Sandbox() {
           setJs(fetchedTask?.starterJs ?? "");
           setLogs([]);
         }
+
+        hasFetched.current = true; // Mark fetch as completed
       } catch (err) {
         if (!cancelled) {
-          console.error("Failed to fetch task:", err);
           setTask(null);
+          throw err;
         }
       }
     }
@@ -98,7 +107,7 @@ export default function Sandbox() {
     return () => {
       cancelled = true;
     };
-  }, [taskId, fetchSavedTasks, navigate, task, html, css, js, user]);
+  }, [taskId, fetchSavedTasks, navigate, user]);
 
   // Listen for console messages from iframe
   useEffect(() => {
@@ -213,6 +222,15 @@ export default function Sandbox() {
   }, [execCode]);
 
   function run() {
+    if (!user?.validated) {
+      setLogs((prevLogs) => [
+        ...prevLogs,
+        { level: "error", args: ["You must be validated to execute code."] },
+      ]);
+      addNotification("error", "You must be validated to execute code.");
+      return;
+    }
+
     try {
       setLogs([]);
       setExecCode({ html, css, js }); // snapshot
@@ -233,17 +251,12 @@ export default function Sandbox() {
       };
 
       const taskName = task ? task.title : null;
-      saveSandboxTask(codeToSave.html, codeToSave.css, codeToSave.js, taskName);
+      const thumbUrl = task && task.thumbUrl ? task.thumbUrl : null;
+      saveSandboxTask(codeToSave.html, codeToSave.css, codeToSave.js, taskName, thumbUrl);
 
-      setLogs((prevLogs) => [
-        ...prevLogs,
-        { level: "info", args: ["Code saved successfully!"] },
-      ]);
+      addNotification("success", "Code saved successfully!");
     } catch (error) {
-      setLogs((prevLogs) => [
-        ...prevLogs,
-        { level: "error", args: ["Failed to save code:", error.message] },
-      ]);
+      addNotification("error", `Failed to save code: ${error.message}`);
     }
   }
 
@@ -293,8 +306,6 @@ export default function Sandbox() {
                       </button>
                     </div>
                   )}
-
-                  <h3>Task:</h3>
                   <p>{task.description}</p>
                 </>
               )}
@@ -323,9 +334,9 @@ export default function Sandbox() {
             </div>
 
             <div className={styles.editorArea}>
-              {active === "html" && <Monaco language="html" value={html} onChange={setHtml} />}
-              {active === "css" && <Monaco language="css" value={css} onChange={setCss} />}
-              {active === "js" && <Monaco language="javascript" value={js} onChange={setJs} />}
+              {active === "html" && <Monaco language="html" value={html} onChange={handleHtmlChange} />}
+              {active === "css" && <Monaco language="css" value={css} onChange={handleCssChange} />}
+              {active === "js" && <Monaco language="javascript" value={js} onChange={handleJsChange} />}
 
               {active === "console" && (
                 <ConsoleView logs={logs} />
@@ -364,6 +375,7 @@ function Monaco({ language, value, onChange }) {
         tabSize: 2,
         wordWrap: "on",
         automaticLayout: true,
+        readOnly: false, // Ensure the editor is always editable
       }}
     />
   );

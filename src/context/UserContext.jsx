@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
                 setUser(updatedUser);
             }
         } catch (error) {
-            console.error("Error updating user in context:", error);
+            throw new Error(error)
         }
     };
 
@@ -42,27 +42,30 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             setLoading(true); 
-            if (firebaseUser) {
-                const userDocRef = doc(db, "users", firebaseUser.uid);
-                const userDoc = await getDoc(userDocRef);
-                if (userDoc.exists()) {
-                    setUser({
-                        id: firebaseUser.uid,
-                        email: firebaseUser.email,
-                        name: userDoc.data().name,
-                        phone: userDoc.data().phone,
-                        profilePicture: userDoc.data().profilePicture,
-                        savedOffers: userDoc.data().savedOffers,
-                        createdAt: userDoc.data().createdAt,
-                        ...userDoc.data(),
-                    });
+            try {
+                if (firebaseUser) {
+                    const userDocRef = doc(db, "users", firebaseUser.uid);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        setUser({
+                            id: firebaseUser.uid,
+                            email: firebaseUser.email,
+                            name: userDoc.data().name,
+                            phone: userDoc.data().phone,
+                            profilePicture: userDoc.data().profilePicture,
+                            savedOffers: userDoc.data().savedOffers,
+                            createdAt: userDoc.data().createdAt,
+                            ...userDoc.data(),
+                        });
+                    } else {
+                        setError("User data not found in Firestore.");
+                    }
                 } else {
-                    setError("User data not found in Firestore.");
+                    clearUser(); 
                 }
-            } else {
-                clearUser(); 
+            } finally {
+                setLoading(false); 
             }
-            setLoading(false); 
         });
 
         return () => unsubscribe();

@@ -3,9 +3,9 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { auth, db } from "../firebase";
 import { useErrorHandler as createErrorHandler } from '../hooks/useErrorHandler';
 
-export const request = {
-  async getAll(collectionName, signal) {
-    const { handleError } = createErrorHandler();
+const request = {
+  async getAll(collectionName, signal, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const snapshot = await getDocs(collection(db, collectionName), { signal });
       return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -16,8 +16,8 @@ export const request = {
     }
   },
 
-  async create(collectionName, data) {
-    const { handleError } = createErrorHandler();
+  async create(collectionName, data, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const docRef = await addDoc(collection(db, collectionName), data);
       return { id: docRef.id, ...data };
@@ -26,8 +26,8 @@ export const request = {
     }
   },
 
-  async getLatest(collectionName, count = 10) {
-    const { handleError } = createErrorHandler();
+  async getLatest(collectionName, count = 10, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const q = query(collection(db, collectionName), orderBy("createdAt", "desc"), limit(count));
       const snapshot = await getDocs(q);
@@ -37,8 +37,8 @@ export const request = {
     }
   },
 
-  async getById(collectionName, id, signal) {
-    const { handleError } = createErrorHandler();
+  async getById(collectionName, id, signal, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const docRef = doc(db, collectionName, id);
       const docSnap = await getDoc(docRef, { signal });
@@ -54,8 +54,8 @@ export const request = {
     }
   },
 
-  async registerUser(email, password, additionalData) {
-    const { handleError } = createErrorHandler();
+  async registerUser(email, password, additionalData, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -65,37 +65,35 @@ export const request = {
         createdAt: new Date().toISOString(),
         email,
         savedTasks: [],
+        validated: false, // Default field
+        admin: false, // Default field
         ...additionalData
       });
       return user;
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        throw new Error('This email is already registered. Please log in or use a different email.');
-      }
       handleError(error, 'Failed to register user.');
-      throw error; 
     }
   },
 
-  async loginUser(email, password) {
-    const { handleError } = createErrorHandler();
+  async loginUser(email, password, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
       if (!userDoc.exists()) {
-        throw new Error("User data not found in Firestore.");
+        return { error: "User data not found in Firestore." };
       }
-      return { id: user.uid, email: user.email, ...userDoc.data() }; 
+      return { id: user.uid, email: user.email, ...userDoc.data() };
     } catch (error) {
       handleError(error, 'Failed to log in user.');
-      throw error; 
+      return { error: error.message || 'An unexpected error occurred.' }; // Return error object instead of throwing
     }
   },
 
-  async logoutUser() {
-    const { handleError } = createErrorHandler();
+  async logoutUser(addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       await auth.signOut();
     } catch (error) {
@@ -103,8 +101,8 @@ export const request = {
     }
   },
 
-  async createLecture(data) {
-    const { handleError } = createErrorHandler();
+  async createLecture(data, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const lectureData = {
         ...data,
@@ -116,8 +114,8 @@ export const request = {
     }
   },
 
-  async getAllLectures() {
-    const { handleError } = createErrorHandler();
+  async getAllLectures(addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const snapshot = await getDocs(collection(db, "lectures"));
       return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -126,12 +124,12 @@ export const request = {
     }
   },
 
-  async getSingleLecture(id, signal) {
-    return await this.getById("lectures", id, signal);
+  async getSingleLecture(id, signal, addNotification) {
+    return await this.getById("lectures", id, signal, addNotification);
   },
 
-  async createTask(data) {
-    const { handleError } = createErrorHandler();
+  async createTask(data, addNotification) {
+    const { handleError } = createErrorHandler(addNotification);
     try {
       const taskData = {
         ...data,
@@ -141,6 +139,18 @@ export const request = {
     } catch (error) {
       handleError(error, 'Failed to create a new task.');
     }
-  }
+  },
 };
+
+export async function updateField(collection, id, field, value) {
+  const { handleError } = createErrorHandler();
+  try {
+    const docRef = doc(db, collection, id);
+    await setDoc(docRef, { [field]: value }, { merge: true });
+  } catch (error) {
+    handleError(error, `Failed to update field ${field} in document with ID ${id}.`);
+  }
+}
+
+export { request };
 

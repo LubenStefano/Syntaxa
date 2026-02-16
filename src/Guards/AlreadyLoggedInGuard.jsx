@@ -24,8 +24,12 @@ export default function AlreadyLoggedInGuard() {
     }
 
     if (user) {
-        return <Navigate to="/" />;
+        return <Navigate to="/" replace />;
     }
 
-    return <Outlet />;
+    return (
+        <div>
+            <Outlet />
+        </div>
+    );
 }

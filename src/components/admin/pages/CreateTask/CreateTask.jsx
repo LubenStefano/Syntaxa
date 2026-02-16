@@ -164,14 +164,14 @@ export default function CreateTask() {
         </label>
 
         <div className={styles.formActions}>
-          <button
+          <div
             className={`${styles.button} ${styles.primary}`}
             type="button"
             onClick={handlePublish}
             disabled={isLoading}
           >
             {isLoading ? "Publishing..." : "Publish"}
-          </button>
+          </div>
         </div>
 
         {error && <p className={styles.error}>{error.message}</p>}

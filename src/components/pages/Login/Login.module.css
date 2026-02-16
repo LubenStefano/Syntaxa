@@ -129,3 +129,56 @@
   object-fit: cover;
   display: block;
 }
+
+/* ========== Media Queries ========== */
+@media (max-width: 700px) {
+  .card {
+    flex-direction: column;
+    width: 98vw;
+    height: auto;
+    min-height: 0;
+    margin-bottom: 40px;
+  }
+  .cardLeft, .cardRight {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 10px;
+  }
+  .cardLeft {
+    align-items: center;
+    padding-bottom: 0;
+    height: 500px;
+  }
+  .cardLeft form {
+    width: 90%;
+    left: 5%;
+  }
+  .cardRight {
+    min-height: 180px;
+    height: 180px;
+  }
+  .hero {
+    height: 180px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    width: 100vw;
+    margin-bottom: 20px;
+  }
+  .cardLeft, .cardRight {
+    padding: 8px 2px;
+    height: 500px;
+  }
+
+  .cardLeft form {
+    width: 90%;
+    left: 5%;
+  }
+
+  .cardRight, .hero {
+    height: 200px;
+  }
+}

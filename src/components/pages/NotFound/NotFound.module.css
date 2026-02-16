@@ -1,0 +1,92 @@
+.hero {
+  text-align: center;
+  padding: 0 32px 32px 32px;
+  display: flex;
+  align-items: center;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 25px;
+  margin: 0 100px 0 100px;
+  border-radius: 8px;
+}
+
+.hero-content {
+  width: 50%;
+  margin-right: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero h1 {
+  font-size: 50px;
+  margin-bottom: 16px;
+  font-family: "Arvo", serif;
+  font-weight: 400;
+  z-index: 4;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.hero img {
+  width: 35%;
+  position: relative;
+  top: 70px;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+button {
+  padding: 10px 50px;
+    font-size: 20px;
+    border: none;
+    background-color: #6E85B7;
+    color: #fff;
+    font-family: "MuseoModerno", sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 200ms ease;
+}
+
+button:hover {
+    background-color: #576991;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    margin: 0 50px;
+    padding: 0 16px;
+  }
+
+  .hero-content {
+    width: 100%;
+    margin-right: 0;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero img {
+    width: 50%;
+    top: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero img {
+    width: 70%;
+    top: 30px;
+  }
+}

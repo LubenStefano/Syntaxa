@@ -1,30 +1,56 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAdminTasks } from "../../../../hooks/useAdminTasks";
 import styles from "./ReviewTask.module.css";
+import { useNotification } from "../../../shared/Notification/useNotification";
 
-const submission = {
-  student: "Unknown",
-  submittedAt: "—",
-  grade: "",
-  html: `<div class="card">
-  <img src="https://picsum.photos/640/360" alt="sample image">
-  <div class="card-body">
-    <h3>Sample Card</h3>
-    <p>Example submission</p>
-  </div>
-</div>`,
-  css: `.card{max-width:420px;border-radius:12px;overflow:hidden;border:1px solid #e6e9f0;box-shadow:0 8px 24px rgba(47,59,78,0.06);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
-.card img{width:100%;display:block}
-.card-body{padding:12px}
-.card-body h3{color:#2f3b4e;margin:0 0 6px}
-.card-body p{margin:0;color:rgba(47,59,78,0.7)}`,
-  js: `// optional JS for interactions`,
-};
-
-const srcDoc =
-  (submission.css ? `<style>${submission.css}</style>` : "") +
-  (submission.html || "") +
-  (submission.js ? `<script>${submission.js}</script>` : "");
 
 export default function ReviewTask() {
+  const { id } = useParams();
+  const { fetchAllSavedTasks, updateTaskGrade } = useAdminTasks();
+  const [submission, setSubmission] = useState(null);
+  const { addNotification } = useNotification()
+
+  useEffect(() => {
+    async function loadSubmission() {
+      try {
+        const tasks = await fetchAllSavedTasks();
+        const task = tasks.find((t) => t.id === id);
+        setSubmission(task);
+      } catch (error) {
+        addNotification("error", error)
+      }
+    }
+
+    loadSubmission();
+  }, [id, fetchAllSavedTasks, addNotification]);
+
+  const handleSaveGrade = async () => {
+    const gradeInput = document.querySelector(`.${styles.gradeInput}`);
+    const grade = parseInt(gradeInput.value, 10);
+
+    if (isNaN(grade) || grade < 0 || grade > 100) {
+      alert("Please enter a valid grade between 0 and 100.");
+      return;
+    }
+
+    try {
+      await updateTaskGrade(id, grade);
+      alert("Grade saved successfully.");
+    } catch {
+      alert("Failed to save grade. Please try again.");
+    }
+  };
+
+  if (!submission) {
+    return <div>Loading...</div>;
+  }
+
+  const srcDoc =
+    (submission.css ? `<style>${submission.css}</style>` : "") +
+    (submission.html || "") +
+    (submission.js ? `<script>${submission.js}</script>` : "");
+
   return (
     <main className={styles.adminPage}>
       <h1>Review Submission</h1>
@@ -32,10 +58,10 @@ export default function ReviewTask() {
       <div className={styles.reviewGrid}>
         <div className={styles.leftCol}>
           <label className={styles.label}>Student</label>
-          <div className={styles.readonlyBox}>{submission.student}</div>
+          <div className={styles.readonlyBox}>{submission.studentName}</div>
 
           <label className={styles.label}>Submitted At</label>
-          <div className={styles.readonlyBox}>{submission.submittedAt}</div>
+          <div className={styles.readonlyBox}>{submission.dateCreated}</div>
 
           <label className={styles.label}>Grade (out of 100)</label>
           <input
@@ -48,9 +74,13 @@ export default function ReviewTask() {
           />
 
           <div className={styles.saveWrap}>
-            <button className={`${styles.button} ${styles.primary}`} type="button">
+            <div
+              className={`${styles.button} ${styles.primary}`}
+              type="button"
+              onClick={handleSaveGrade}
+            >
               Save Grade
-            </button>
+            </div>
           </div>
         </div>
 
@@ -62,6 +92,7 @@ export default function ReviewTask() {
             className={styles.textarea}
             rows={6}
             placeholder="<!-- Solution HTML -->"
+            defaultValue={submission.html}
           />
 
           <label className={styles.label}>Solution CSS</label>
@@ -69,6 +100,7 @@ export default function ReviewTask() {
             className={styles.textarea}
             rows={6}
             placeholder="/* Solution CSS */"
+            defaultValue={submission.css}
           />
 
           <label className={styles.label}>Solution JS</label>
@@ -76,6 +108,7 @@ export default function ReviewTask() {
             className={styles.textarea}
             rows={4}
             placeholder="// Solution JS"
+            defaultValue={submission.js}
           />
 
           <iframe
@@ -85,12 +118,6 @@ export default function ReviewTask() {
             srcDoc={srcDoc}
           />
         </div>
-      </div>
-
-      <div className={styles.bottomBar}>
-        <button className={styles.button} type="button">
-          Back
-        </button>
       </div>
     </main>
   );

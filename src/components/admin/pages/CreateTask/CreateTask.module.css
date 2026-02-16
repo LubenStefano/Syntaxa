@@ -1,10 +1,13 @@
 .adminPage {
-  max-width: 1000px;
+  max-width: 80%;
+  left: 10%;
   margin: 36px auto;
   padding: 20px;
 
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: #2f3b4e;
+  display: flex;
+  flex-direction: column;
 }
 
 .adminHead h1 {
@@ -18,6 +21,7 @@
 
 .editorForm {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 12px;
   background: #fff;
@@ -25,6 +29,11 @@
   border-radius: 12px;
   border: 1px solid rgba(47, 59, 78, 0.06);
   box-shadow: 0 8px 24px rgba(47, 59, 78, 0.04);
+}
+
+.adminHead {
+  width: 100%;
+  text-align: center;
 }
 
 .row {

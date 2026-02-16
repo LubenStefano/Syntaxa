@@ -1,39 +1,36 @@
 import styles from "./SolvedTasks.module.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAdminTasks } from "../../../../hooks/useAdminTasks";
+import { useNotification } from "../../../shared/Notification/useNotification";
 
-import flowersImg from "../../../../../assets/flowers.jpg";
-
-const submissions = [
-  {
-    id: "sub_001",
-    student: "Ivan Petrov",
-    taskTitle: "responsive card",
-    submittedAt: "2026-02-09 14:30",
-    grade: null, // not graded yet
-    thumb: flowersImg,
-  },
-  {
-    id: "sub_002",
-    student: "Maria Georgieva",
-    taskTitle: "hover states",
-    submittedAt: "2026-02-09 12:10",
-    grade: 74,
-    thumb: flowersImg,
-  },
-  {
-    id: "sub_003",
-    student: "Georgi Ivanov",
-    taskTitle: "flexbox layout",
-    submittedAt: "2026-02-08 20:55",
-    grade: null,
-    thumb: flowersImg,
-  },
-];
 
 export default function SolvedTasks() {
-  const has = submissions.length > 0;
+  const [submissions, setSubmissions] = useState([]);
+  const [showAll, setShowAll] = useState(false); // Toggle to show all or ungraded only
+  const { fetchAllSavedTasks } = useAdminTasks();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const {addNotification } = useNotification()
+
+  useEffect(() => {
+    async function loadSavedTasks() {
+      try {
+        const tasks = await fetchAllSavedTasks();
+
+        // Filter tasks based on the toggle
+        const filteredTasks = showAll ? tasks : tasks.filter((task) => task.grade === null || task.grade === undefined);
+        setSubmissions(filteredTasks);
+      } catch {
+        addNotification("error", "Failed to fetch saved tasks. Please try again later.");
+      }
+    }
+
+    loadSavedTasks();
+  }, [fetchAllSavedTasks, showAll, addNotification]); // Re-run when `showAll` changes
+
+  const has = submissions.length > 0;
 
   function handleReview(id) {
     navigate(`/admin/review-task/${id}`);
@@ -46,6 +43,9 @@ export default function SolvedTasks() {
         <p className={styles.muted}>
           List of all saved submissions (all students). Open one to review and grade.
         </p>
+        <div className={styles.toggleButton} onClick={() => setShowAll((prev) => !prev)}>
+          {showAll ? "Show Ungraded Only" : "Show All"}
+        </div>
       </header>
 
       <section className={styles.profileTasks}>
@@ -56,20 +56,17 @@ export default function SolvedTasks() {
 
           {submissions.map((s) => (
             <li key={s.id} className={styles.taskCard}>
-              <div className={styles.thumb}>
-                <img src={s.thumb} alt="submission thumbnail" />
-              </div>
-
               <div className={styles.meta}>
-                <h4>{s.taskTitle}</h4>
-                <p>Submitted by: {s.student}</p>
-                <p>{s.submittedAt}</p>
+                <h4>{s.taskName}</h4> {/* Display task name */}
+                <p>Submitted by: {s.studentName}</p> {/* Display student name */}
+                <p>Grade: {s.grade !== null && s.grade !== undefined ? s.grade : "Not graded yet"}</p> {/* Display grade */}
+                <p>Date Created: {new Date(s.dateCreated).toLocaleString()}</p> {/* Display formatted date */}
               </div>
 
               <div className={styles.actions}>
-                <button className={styles.button} type="button" onClick={() => {handleReview(s.id)}}>
+                <div className={styles.button} type="button" onClick={() => {handleReview(s.id)}}>
                   Review
-                </button>
+                </div>
               </div>
             </li>
           ))}

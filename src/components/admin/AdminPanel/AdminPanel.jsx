@@ -19,7 +19,7 @@ export default function AdminPanel() {
 
         <nav className={styles.menu}>
           {tabs.map((t) => (
-            <button
+            <div
               key={t.key}
               type="button"
               className={`${styles.menuItem} ${active === t.key ? styles.active : ""}`}
@@ -29,7 +29,7 @@ export default function AdminPanel() {
               }}
             >
               {t.label}
-            </button>
+            </div>
           ))}
         </nav>
       </aside>

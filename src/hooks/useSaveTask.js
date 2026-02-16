@@ -30,7 +30,7 @@ export function useSaveTask() {
     return request.create("savedTasks", solvedTask);
   }
 
-  async function saveSandboxTask(html, css, js, taskName = null) {
+  async function saveSandboxTask(html, css, js, taskName = null, thumbUrl = null) {
     if (!user) {
       throw new Error("User is not logged in.");
     }
@@ -51,6 +51,7 @@ export function useSaveTask() {
       css,
       js,
       grade: null, // Grade will be set later by the admin
+      thumbUrl: thumbUrl || null,
     };
 
     return request.create("savedTasks", sandboxTask);

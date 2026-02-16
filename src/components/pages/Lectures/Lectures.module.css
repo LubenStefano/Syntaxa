@@ -1,12 +1,12 @@
 .main {
     position: relative;
     width: 80%;
-    height: 100vh;
+    height: 100%;
     left: 10%;
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
-    margin: 100px 10px;
+    margin: 100px 0px;
     justify-content: center;
     align-items: center;
     flex-direction: row;
@@ -14,16 +14,18 @@
 }
 /* ========== FILTERS ========== */
 .filters {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 1rem;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-  border: 1px solid rgba(110, 133, 183, 0.12);
-  box-shadow: 0 8px 24px rgba(110, 133, 183, 0.06);
-  font-family: "Sansation", sans-serif;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    border: 1px solid rgba(110, 133, 183, 0.12);
+    box-shadow: 0 8px 24px rgba(110, 133, 183, 0.06);
+    font-family: "Sansation", sans-serif;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .filtersInner {
@@ -58,16 +60,6 @@
   align-items: center;
 }
 
-.button {
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid rgba(110, 133, 183, 0.14);
-  background: transparent;
-}
-
 /* ========== LECTURE CARD ========== */
 .lecture {
   width: 300px;
@@ -95,11 +87,16 @@
 .header {
   padding: 10px 0 5px;
   font-size: 25px;
+  margin: 5px 0px;
 }
 
 .description {
   font-size: 14px;
   padding: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+height: 20%;
+color: #747474;
 }
 
 .tags {
@@ -113,6 +110,10 @@
   text-align: center;
   font-size: 15px;
   list-style: none;
+    border: 1px solid #a4a4a4;
+  padding: 3px 0px;
+  border-radius: 15px;
+  color: #747474;
 }
 
 .logos {

@@ -3,16 +3,21 @@ import { useLogout } from "../../../hooks/useAuth";
 import { useUser } from "../../../context/UserContext";
 import { useSaveTask } from "../../../hooks/useSaveTask";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import { Spin } from "antd";
+import { useNotification } from "../../shared/Notification/useNotification";
+
 
 import avatarImg from "../../../../assets/bird.png";
 
 export default function Profile() {
   const { logout } = useLogout();
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const { fetchSavedTasks } = useSaveTask();
   const [savedTasks, setSavedTasks] = useState([]);
   const navigate = useNavigate();
+
+  const { addNotification } = useNotification()
 
   useEffect(() => {
     async function loadSavedTasks() {
@@ -20,21 +25,42 @@ export default function Profile() {
         const tasks = await fetchSavedTasks();
         setSavedTasks(tasks);
       } catch (error) {
-        console.error("Failed to fetch saved tasks:", error);
+        addNotification("error", error)
       }
     }
 
     if (user) {
       loadSavedTasks();
     }
-  }, [user, fetchSavedTasks]);
+  }, [user, fetchSavedTasks, addNotification]);
 
   const handleLogout = () => {
     logout();
+    navigate("/");
   };
 
-  if (!user) {
-    return <p>Loading user data...</p>;
+  if (!user && !loading) {
+    return <Navigate to="/login" />;
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
   }
 
   const hasSubmissions = savedTasks.length > 0;
@@ -90,7 +116,7 @@ export default function Profile() {
               >
                 <div className={styles.thumb}>
                   <img
-                    src={task.thumb || avatarImg}
+                    src={task.thumbUrl || avatarImg}
                     alt="submission thumbnail"
                   />
                 </div>
@@ -101,7 +127,7 @@ export default function Profile() {
                 </div>
 
                 <div className={styles.gradeBadge}>
-                  {task.grade ? `${task.grade}/100` : "?/100"}
+                  {task.grade ? `${task.grade}/100%` : "?/100%"}
                 </div>
               </li>
             ))}

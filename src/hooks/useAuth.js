@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { request } from "../utils/request";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import { useErrorHandler } from './useErrorHandler';
 import { showMessage } from "../utils/messageHandler";
+import { useNotification } from "../components/shared/Notification/useNotification";
 
 export const useRegister = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { setUser } = useUser(); 
-    const { handleError } = useErrorHandler();
 
     const register = async (email, password, additionalData) => {
         try {
@@ -24,8 +23,8 @@ export const useRegister = () => {
             navigate("/");
             return loggedInUser;
         } catch (err) {
-            handleError(err, 'Registration failed.');
-            setError(err.message);
+            setError(err.message || 'An unexpected error occurred.');
+            throw err; // Throw the error to be handled by the caller
         }
     };
 
@@ -36,20 +35,22 @@ export const useLogin = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { setUser } = useUser(); 
-    const { handleError } = useErrorHandler();
+    const { addNotification } = useNotification();
 
     const login = async (email, password) => {
         try {
             setError(null);
-            const userData = await request.loginUser(email, password);
-            
-            setUser(userData); 
-            navigate("/");
+            const response = await request.loginUser(email, password, addNotification);
 
-            return userData;
+            if (response.error) {
+                setError(response.error); // Set the error message
+                return;
+            }
+
+            setUser(response); 
+            navigate("/");
         } catch (err) {
-            handleError(err, 'Login failed.');
-            setError(err.message);
+            setError(err.message || "An unexpected error occurred.");
         }
     };
 
@@ -59,7 +60,6 @@ export const useLogin = () => {
 export const useLogout = () => {
     const { clearUser } = useUser();
     const navigate = useNavigate();
-    const { handleError } = useErrorHandler();
 
     const logout = async () => {
         try {
@@ -67,8 +67,7 @@ export const useLogout = () => {
             clearUser(); 
             navigate("/"); 
         } catch (err) {
-            handleError(err, 'Logout failed.');
-            console.error("Logout error:", err);
+            throw new Error("Logout error:", err); // Log the error for debugging
         }
     };
 
@@ -78,7 +77,6 @@ export const useLogout = () => {
 export const useUserById = (userId) => {
     const [userById, setUserById] = useState(null);
     const [error, setError] = useState(null);
-    const { handleError } = useErrorHandler();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -86,14 +84,12 @@ export const useUserById = (userId) => {
                 const userData = await request.getUserById(userId);
                 setUserById(userData);
             } catch (err) {
-                handleError(err, 'Fetch user by ID failed.');
-                console.error("Error fetching user:", err);
-                setError(err.message);
+                setError(err.message || 'An unexpected error occurred.');
             }
         };
 
         fetchUser();
-    }, [userId, handleError]);
+    }, [userId]);
 
     return { userById , error };
 };

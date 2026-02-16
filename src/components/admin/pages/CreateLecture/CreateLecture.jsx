@@ -200,18 +200,18 @@ export default function CreateLecture() {
                 value={link.url}
                 onChange={(e) => handleFileLinkChange(index, "url", e.target.value)}
               />
-              <button
+              <div
                 type="button"
                 className={styles.deleteButton}
                 onClick={() => deleteFileLink(index)}
               >
                 ✖
-              </button>
+              </div>
             </div>
           ))}
-          <button type="button" onClick={addFileLink} className={styles.addButton}>
+          <div type="button" onClick={addFileLink} className={styles.addButton}>
             + Add File Link
-          </button>
+          </div>
         </fieldset>
 
         {/* Dynamic fields for resource links */}
@@ -231,29 +231,29 @@ export default function CreateLecture() {
                 value={link.url}
                 onChange={(e) => handleResourceLinkChange(index, "url", e.target.value)}
               />
-              <button
+              <div
                 type="button"
                 className={styles.deleteButton}
                 onClick={() => deleteResourceLink(index)}
               >
                 ✖
-              </button>
+              </div>
             </div>
           ))}
-          <button type="button" onClick={addResourceLink} className={styles.addButton}>
+          <div type="button" onClick={addResourceLink} className={styles.addButton}>
             + Add Resource Link
-          </button>
+          </div>
         </fieldset>
 
         <div className={styles.formActions}>
-          <button
+          <div
             className={`${styles.button} ${styles.primary}`}
             type="button"
             onClick={handlePublish}
             disabled={isLoading}
           >
             {isLoading ? "Publishing..." : "Publish"}
-          </button>
+          </div>
         </div>
 
         {error && <p className={styles.error}>{error.message}</p>}
