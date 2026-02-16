@@ -79,11 +79,11 @@ export default function Lecture() {
         </div>
 
         <aside className={styles.info}>
-          {lecture.resourcelinks && lecture.resourcelinks.length > 0 && (
+          {lecture.resourceLinks && lecture.resourceLinks.length > 0 && (
             <>
               <h3>Additional Info:</h3>
-              <ul className={styles.resourcelinks}>
-                {lecture.resourcelinks.map((r) => (
+              <ul className={styles.resourceLinks}>
+                {lecture.resourceLinks.map((r) => (
                   <li key={r.name}>
                     <a href="#" onClick={() => handleOpenLink(r.url)}>
                       {r.name}
